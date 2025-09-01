@@ -436,8 +436,8 @@ function initializeIPFS() {
 }
 // Add these constants at the top of your file with your other constants
 // This happens during build time, not runtime
-const YOUR_PINATA_API_KEY = config.PINATA_API_KEY;
-const YOUR_PINATA_SECRET_API_KEY = config.PINATA_SECRET_API_KEY;
+const YOUR_PINATA_API_KEY = 'dd5ced454fc1e57c740a';
+const YOUR_PINATA_SECRET_API_KEY = '6ff545b4c1d48bf901f03f5e352910df3336bf2e692209baf6a8759633c5da21';
 // Event Listeners
 window.addEventListener('load', async () => {
     // Check login status
