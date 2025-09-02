@@ -4,7 +4,7 @@ let contract;
 let userAccount;
 
 //import CONTRACT_ABI from './ContractABI'; // Adjust the path as necessary
-const contractAddress = '0x9cc3b62a4d83455100c179f69e8f2a221dc44d45';
+const contractAddress = process.env.CNTRCTADRS;
 const CONTRACT_ABI = [
   {
     "anonymous": false,
