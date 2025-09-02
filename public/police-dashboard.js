@@ -436,7 +436,6 @@ function initializeIPFS() {
   return true; // Just return true to indicate configuration is ready
 }
 
-
 const YOUR_PINATA_API_KEY = 'dd5ced454fc1e57c740a';
 const YOUR_PINATA_SECRET_API_KEY = '6ff545b4c1d48bf901f03f5e352910df3336bf2e692209baf6a8759633c5da21';
 // Event Listeners
