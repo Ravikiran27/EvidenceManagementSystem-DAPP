@@ -1,100 +1,125 @@
-# 🚔 Evidence Management System using Blockchain, IPFS & Pinata
+# Evidence Management System DApp
 
-A decentralized application (dApp) that enables secure and immutable management of digital evidence using Ethereum smart contracts and IPFS. Role-based access control ensures only authorized parties like police officers and court officials can interact with the system, protecting the integrity of uploaded evidence.
+## Overview
+Evidence Management System DApp is a decentralized application designed to securely manage digital evidence for law enforcement and judicial processes. Leveraging Ethereum smart contracts and IPFS storage, the system ensures transparency, immutability, and accessibility of evidence records.
 
----
+## Smart Contract Details
 
-## 📦 Tech Stack
+The core smart contract (`EvidenceManagement.sol`) manages evidence records, user registration, and access permissions. All evidence uploads and queries are recorded on the Ethereum blockchain, ensuring auditability and tamper-resistance.
 
-- **Ethereum** (Smart Contracts - Solidity)
-- **Truffle** (Development Framework)
-- **Ganache** (Local Ethereum Blockchain)
-- **MetaMask** (Wallet & Authentication)
-- **IPFS** via **Pinata** (Decentralized File Storage)
-- **HTML/CSS/JavaScript** (Frontend)
+### Structure
+- **Evidence Struct**: Stores IPFS hash, case number, location, crime description, evidence type, officer name, timestamp, and existence flag.
+- **Mappings**: Evidence records by ID, user roles, user names, and registration status.
+- **Events**: Emitted for evidence addition, access, and user registration.
 
----
+### Main Functions
+- `registerUser(name, role)`: Register a user as Police or Court. Enforces unique registration and valid roles.
+- `addEvidence(evidenceId, ipfsHash, caseNumber, location, crimeDescription, evidenceType)`: Police-only function to add new evidence. Stores metadata and emits an event.
+- `getEvidence(evidenceId)`: Returns evidence details for registered users and emits access event.
+- `getEvidenceCount()`: Returns total number of evidence records.
+- `isUserRegistered(address)`: Checks if a user is registered.
+- `getUserRole(address)`, `getUserName(address)`: Returns role and name for a registered user.
 
-## 🔧 Setup Instructions
+### Access Control & Audit Trail
+- Only registered users can interact with the contract.
+- Only police officers can add evidence.
+- All evidence access and addition is logged via events for auditability.
 
-### ✅ Prerequisites
+### Evidence Workflow
+1. Police officer registers and uploads evidence (IPFS hash + metadata).
+2. Evidence is stored on-chain and can be accessed by registered court officials.
+3. All actions are logged for transparency and traceability.
 
-Install the following tools:
+## User Roles & Workflow
+- **Police**: Upload evidence files, register metadata, and assign cases to court
+- **Court**: View, verify, and track evidence for judicial proceedings
 
-- [Node.js](https://nodejs.org/)
-- [Truffle](https://trufflesuite.com/)
-  ```bash
-  npm install -g truffle
-  ```
-- Ganache
+### Workflow
+1. Police user logs in via MetaMask and uploads evidence (file + metadata)
+2. File is uploaded to IPFS via Pinata; IPFS hash is stored on-chain
+3. Evidence is assigned to a court official for review
+4. Court user logs in, views assigned evidence, and verifies authenticity
+
+## Security Considerations
+- All transactions require MetaMask authentication and are signed by the user
+- Evidence files are stored on IPFS, ensuring decentralized and tamper-proof storage
+- Only authorized roles can upload or view evidence
+- Contract enforces access control and audit trails
+
+## API Integration
+Pinata API is used for uploading files to IPFS. You must configure your API keys securely and never expose them in public repositories.
+
+## Troubleshooting
+- **MetaMask not connected**: Ensure MetaMask is installed and set to Sepolia testnet
+- **Contract address mismatch**: Verify the deployed address matches the one in frontend JS files
+- **IPFS upload issues**: Check Pinata API keys and network connectivity
+
+## Limitations & Future Improvements
+- Currently supports Sepolia testnet; mainnet deployment requires further security review
+- UI/UX can be enhanced for better user experience
+- Multi-file evidence and advanced search features can be added
+- Integration with other decentralized storage providers (e.g., Filecoin)
+
+## Features
+- Decentralized evidence storage and retrieval
+- Role-based dashboards for police and court officials
+- Secure file uploads to IPFS via Pinata
+- Blockchain-based evidence tracking and verification
+- Integration with MetaMask for transaction signing
+
+## Prerequisites
+- MetaMask browser extension (configured for Sepolia testnet)
+- Pinata account for IPFS storage
+- Access to Remix IDE (https://remix.ethereum.org/)
+
+## Technologies Used
+- Solidity (Smart Contracts)
+- Ethereum Sepolia Testnet
 - MetaMask
-- Pinata Account
+- Pinata (IPFS)
+- Web3.js
+- HTML, CSS, JavaScript (Frontend)
 
-# 1. Clone the Repository
+## Setup Instructions
+
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/Niyati1206/EvidenceManagementSystem.git
-cd EvidenceManagementSystem
+git clone https://github.com/Ravikiran27/EvidenceManagementSystem-DAPP.git
+cd EvidenceManagementSystem-DAPP
 ```
 
-# 2. Install Dependencies
-```bash
-npm install
+### 2. Deploy Smart Contract
+1. Open `contracts/EvidenceManagement.sol` in Remix IDE.
+2. Connect MetaMask to the Sepolia testnet.
+3. Compile and deploy the contract using "Injected Provider - MetaMask".
+4. Copy the deployed contract address for frontend integration.
+
+### 3. Configure Pinata
+1. Register at https://pinata.cloud/ and obtain API keys.
+2. Use Pinata to upload evidence files and retrieve IPFS hashes.
+
+### 4. Update Frontend Configuration
+1. Insert the deployed contract address into the relevant JS files in `public/` (e.g., `app.js`).
+2. Ensure MetaMask is connected to Sepolia when accessing the dashboard.
+
+### 5. Run the Frontend
+Open `public/index.html` in your browser. Interact with the police and court dashboards as required.
+
+## Project Structure
 ```
-# 3. Setup Pinata for IPFS Uploads
-- Go to https://www.pinata.cloud/
-- Sign up and verify your email
-- Go to your API Keys dashboard
-- Generate a new key and copy:
-  PINATA_API_KEY
-  PINATA_SECRET_API_KEY
-- Create a config.js file and add your pinata key as follows:
-  ```bash
-  var config = {
-  PINATA_API_KEY: 'add_your_key_here',
-  PINATA_SECRET_API_KEY: 'add_your_secret_key_here'
-  };
-  ```
-
-# 4. Start Ganache (Local Blockchain)
- - Open the Ganache app
- - Create a new workspace and add the truffle-config.js file to it
- - Note the RPC server URL (usually http://127.0.0.1:7545)
-
-# 5. Compile and Deploy Smart Contracts
-```bash
-truffle compile
-truffle migrate --reset
+contracts/           # Solidity smart contracts
+build/               # Compiled contract artifacts
+migrations/           # Migration scripts
+public/              # Frontend files (HTML, JS, CSS)
+README.md            # Project documentation
+requirements.txt     # Python dependencies (if any)
+truffle-config.js    # Truffle configuration (legacy)
 ```
-- Copy the contract address from the "EvidenceManagement" contract and paste it into 
-1. app.js (line number 7)
-2. court-dashboard.js (line number 7)
-3. police-dashboard.js (line number 7)
-- Also update the ABI in frontend of all three js files
 
-# 6. Run the frontend
-```bash
-npx http-server ./public
-```
-Then open in your browser:
-📍``` http://localhost:8080```
+## Usage
+1. Police officials can upload evidence files, which are stored on IPFS and registered on the blockchain.
+2. Court officials can view and verify evidence records via the dashboard.
+3. All transactions require MetaMask for authentication and signing.
 
-# 7. Set up metamask
-- Configure the network and set up a local network
-- Add atleast 2 accounts (For Police and Court) to the metamask wallet using the private key from Ganache accounts
-
-  ---
-
-![image](https://github.com/user-attachments/assets/6b597f55-ab4a-4303-adb2-8a33b7f78839)
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
+## License
+This project is licensed under the MIT License.

@@ -6,7 +6,7 @@ let contract;
 let ipfs;
 let userAccount;
 let userData;
-const contractAddress = process.env.CNTRCTADRS;
+const contractAddress = '0x9cc3b62a4d83455100c179f69e8f2a221dc44d45';
 const CONTRACT_ABI = 
 [
   {
@@ -437,12 +437,11 @@ function initializeIPFS() {
 }
 
 
-// Use Vercel environment variables for API keys
-const YOUR_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY;
-const YOUR_PINATA_SECRET_API_KEY = process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY;
+const YOUR_PINATA_API_KEY = 'dd5ced454fc1e57c740a';
+const YOUR_PINATA_SECRET_API_KEY = '6ff545b4c1d48bf901f03f5e352910df3336bf2e692209baf6a8759633c5da21';
 // Event Listeners
 window.addEventListener('load', async () => {
-  // Check login 
+  // Check login status
   checkLoginStatus();
   
   // Initialize web3 and IPFS
